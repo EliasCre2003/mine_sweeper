@@ -1,0 +1,9 @@
+[submodule "lib/eigen"]
+	path = lib/eigen
+	url = git@gitlab.com:benbarsdell/eigen.git
+[submodule "lib/sdl"]
+	path = lib/sdl
+	url = git@github.com:libsdl-org/SDL.git
+[submodule "lib/imgui"]
+	path = lib/imgui
+	url = git@github.com:ocornut/imgui.git
