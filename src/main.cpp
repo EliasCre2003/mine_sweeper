@@ -160,7 +160,7 @@ int main(int, char**)
             ImGui::Text("counter = %d", counter);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::Text("%d", )
+            ImGui::Text("%d", grid.numCols());
             ImGui::Button("1", ImVec2(40, 40));
             ImGui::SameLine();
             ImGui::Button("2", ImVec2(40, 40));

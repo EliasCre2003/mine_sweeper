@@ -8,6 +8,16 @@ GameGrid::GameGrid(unsigned int rows, unsigned int cols, unsigned int numBombs)
 {
 }
 
+unsigned int GameGrid::numCols()
+{
+    return cols;
+}
+
+unsigned int GameGrid::numRows()
+{
+    return rows;
+}
+
 bool GameGrid::toggleFlag(unsigned int row, unsigned int col)
 {
     CellCoord coord = {col, row};
@@ -22,7 +32,6 @@ bool GameGrid::toggleFlag(unsigned int row, unsigned int col)
         return true;
     }
 }
-
 
 set<CellCoord> GameGrid::generateBombs(unsigned int numBombs)
 {
