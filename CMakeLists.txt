@@ -7,6 +7,7 @@ target_sources(MyProgram
     PRIVATE
         src/main.cpp
         src/game.cpp
+        src/ui.cpp
 )
 
 target_include_directories(MyProgram

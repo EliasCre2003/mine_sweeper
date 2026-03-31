@@ -20,21 +20,21 @@ unsigned int GameGrid::numRows()
     return rows;
 }
 
-bool GameGrid::clickCell(unsigned int row, unsigned int col)
+bool GameGrid::clickCell(CellCoord coord)
 {
-    CellCoord coord = {col, row};
     if (revealed.contains(coord))
         return true;
-    // if (bombs.contains(coord))
-    // {
-    //     revealed.merge(bombs);
-    //     return false;
-    // }
+    if (bombs.contains(coord))
+    {
+        gameState = LOST;
+        return false;
+    }
+    dfsReveal(coord);
+    return true;
 }
 
-bool GameGrid::toggleFlag(unsigned int row, unsigned int col)
+bool GameGrid::toggleFlag(CellCoord coord)
 {
-    CellCoord coord = {col, row};
     if (flags.contains(coord))
     {
         flags.erase(coord);
@@ -45,6 +45,21 @@ bool GameGrid::toggleFlag(unsigned int row, unsigned int col)
         flags.insert(coord);
         return true;
     }
+}
+
+GameState GameGrid::getGameState()
+{
+    return gameState;
+}
+
+set<CellCoord> GameGrid::bombPositions()
+{
+    return bombs;
+}
+
+map<CellCoord, unsigned int> GameGrid::revealedCells()
+{
+    return revealed;
 }
 
 set<CellCoord> GameGrid::generateBombs(unsigned int numBombs)
@@ -72,13 +87,13 @@ set<CellCoord> GameGrid::generateBombs(unsigned int numBombs)
 set<CellCoord> GameGrid::neighbours4(CellCoord coord)
 {
     set<CellCoord> neighbours;
-    if (coord.col != 0)
+    if (coord.col > 0)
         neighbours.insert({coord.col - 1, coord.row});
-    if (coord.row != 0)
+    if (coord.row > 0)
         neighbours.insert({coord.col, coord.row - 1});
-    if (coord.col != (cols - 1))
+    if (coord.col < (cols - 1))
         neighbours.insert({coord.col + 1, coord.row});
-    if (coord.col != (rows - 1))
+    if (coord.row < (rows - 1))
         neighbours.insert({coord.col, coord.row + 1});
     return neighbours;
 }
@@ -86,18 +101,18 @@ set<CellCoord> GameGrid::neighbours4(CellCoord coord)
 set<CellCoord> GameGrid::neighbours8(CellCoord coord)
 {
     set<CellCoord> neighbours = neighbours4(coord);
-    if (coord.col != 0)
+    if (coord.col > 0)
     {
-        if (coord.row != rows - 1)
+        if (coord.row < (rows - 1))
             neighbours.insert({coord.col - 1, coord.row + 1});
-        if (coord.row != 0)
+        if (coord.row > 0)
             neighbours.insert({coord.col - 1, coord.row - 1});
     }
-    if (coord.col != cols - 1)
+    if (coord.col < (cols - 1))
     {
-        if (coord.row != rows - 1)
+        if (coord.row < (rows - 1))
             neighbours.insert({coord.col + 1, coord.row + 1});
-        if (coord.row != 0)
+        if (coord.row > 0)
             neighbours.insert({coord.col + 1, coord.row - 1});
     }
     return neighbours;
@@ -107,16 +122,20 @@ void GameGrid::dfsReveal(CellCoord coord)
 {
     if (revealed.contains(coord))
         return;
+    
     unsigned int bombNeighbours = numBombNeighbours(coord);
     revealed.insert_or_assign(coord, bombNeighbours);
     if (bombNeighbours != 0)
         return;
-    for (CellCoord neighbour : neighbours4(coord))
-        dfsReveal(neighbour);
+    for (const auto &n : neighbours4(coord))
+        dfsReveal(n);
 }
 
 unsigned int GameGrid::numBombNeighbours(CellCoord coord)
 {
-    set<CellCoord> neighbours = neighbours8(coord);
-    return set_intersection(neighbours, bombs).size()
+    unsigned int count = 0;
+    for (const auto &n : neighbours8(coord))
+        if (bombs.contains(n))
+            count++;
+    return count;
 }
