@@ -122,7 +122,7 @@ void GameGrid::dfsReveal(CellCoord coord)
 {
     if (revealed.contains(coord))
         return;
-    
+
     unsigned int bombNeighbours = numBombNeighbours(coord);
     revealed.insert_or_assign(coord, bombNeighbours);
     if (bombNeighbours != 0)
@@ -138,4 +138,9 @@ unsigned int GameGrid::numBombNeighbours(CellCoord coord)
         if (bombs.contains(n))
             count++;
     return count;
+}
+
+void gamerRunner(GameGrid gameGrid)
+{
+    
 }

@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <compare>
 
+#include "graphics.hpp"
+
 enum GameState
 {
     LOST,
@@ -47,3 +49,5 @@ private:
     std::set<CellCoord> neighbours8(CellCoord coord);
     unsigned int numBombNeighbours(CellCoord coord);
 };
+
+void gamerRunner(GameGrid gameGrid);
