@@ -1,4 +1,5 @@
-add_subdirectory(sdl)
+add_subdirectory(SDL)
+add_subdirectory(SDL_image)
 
 add_library(imgui
     imgui/imgui.cpp
@@ -13,11 +14,11 @@ add_library(imgui
 
 target_link_libraries(imgui
     PUBLIC
-        SDL3::SDL3
+    SDL3::SDL3
 )
 
 target_include_directories(imgui
     PUBLIC
-        imgui
-        imgui/backends
+    imgui
+    imgui/backends
 )

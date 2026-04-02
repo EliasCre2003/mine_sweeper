@@ -7,7 +7,7 @@ target_sources(MyProgram
     PRIVATE
         src/main.cpp
         src/game.cpp
-        src/ui.cpp
+        # src/ui.cpp
 )
 
 target_include_directories(MyProgram
@@ -37,6 +37,7 @@ target_compile_features(MyProgram PRIVATE cxx_std_20)
 # add_subdirectory(lib/**)
 
 add_subdirectory(lib)
+# add_subdirectory(lib/sdl)
 
 # if(TARGET SDL3::SDL3)
 #   add_custom_command(TARGET SDL3::SDL3 POST_BUILD
@@ -48,6 +49,7 @@ add_subdirectory(lib)
 
 target_link_libraries(MyProgram
     PRIVATE
-        imgui
+        # imgui
         SDL3::SDL3
+        SDL3_image::SDL3_image
 )
