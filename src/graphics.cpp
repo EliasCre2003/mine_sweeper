@@ -26,8 +26,10 @@ TextureAtlas TextureAtlas::fromPNG(SDL_Renderer *renderer, std::string path, std
     return TextureAtlas(texture, subdivision);
 }
 
-Texture TextureAtlas::fetchTexture(unsigned int row, unsigned int col)
+Texture TextureAtlas::fetchTexture(unsigned int index)
 {
+    unsigned int col = index % subdivision.second;
+    unsigned int row = index / subdivision.first;
     SDL_FRect sourceRect;
     sourceRect.w = size.first / subdivision.first;
     sourceRect.h = size.second / subdivision.second;

@@ -3,7 +3,8 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3/SDL_timer.h>
 
-#include "graphics.hpp"
+// #include "graphics.hpp"
+#include "game.hpp"
 
 const int SCREEN_WIDTH = 720;
 const int SCREEN_HEIGHT = 720;
@@ -73,12 +74,15 @@ int main(int, char **)
     // Draw the texture to the hidden backbuffer
     // Params: Renderer, Texture, Source Rect (NULL = whole image), Dest Rect
 
-    TextureAtlas atlas = TextureAtlas::fromPNG(
-        renderer,
-        "assets/minesweeper_texture_atlas.png",
-        std::pair<unsigned int, unsigned int>(4, 4));
-    Texture texture = atlas.fetchTexture(0, 1);
-    texture.drawSize = {100, 100};
+    // TextureAtlas atlas = TextureAtlas::fromPNG(
+    //     renderer,
+    //     "assets/minesweeper_texture_atlas.png",
+    //     std::pair<unsigned int, unsigned int>(4, 4));
+    // Texture texture = atlas.fetchTexture(1);
+    // texture.drawSize = {100, 100};
+
+    GameGrid grid(20, 20, 40);
+    GameDrawer drawer(renderer, grid);
 
     bool running = true;
     while (running)
@@ -97,7 +101,8 @@ int main(int, char **)
         // SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
         SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
         SDL_RenderClear(renderer);
-        texture.draw(renderer, 100, 100);
+        drawer.drawGrid();
+        // texture.draw(renderer, 100, 100);
         // SDL_RenderTexture(renderer, texture, NULL, &destRect);
         // SDL_BlitSurface(textureAtlas, NULL, windowSurface, NULL);
         // SDL_UpdateWindowSurface(window);

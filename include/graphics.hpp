@@ -21,7 +21,7 @@ class TextureAtlas
 {
 public:
     static TextureAtlas fromPNG(SDL_Renderer *renderer, std::string path, std::pair<unsigned int, unsigned int> subdivision);
-    Texture fetchTexture(unsigned int row, unsigned int col);
+    Texture fetchTexture(unsigned int index);
 
 private:
     std::pair<float, float> size;
