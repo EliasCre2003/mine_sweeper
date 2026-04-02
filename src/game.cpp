@@ -139,8 +139,3 @@ unsigned int GameGrid::numBombNeighbours(CellCoord coord)
             count++;
     return count;
 }
-
-void gamerRunner(GameGrid gameGrid)
-{
-    
-}

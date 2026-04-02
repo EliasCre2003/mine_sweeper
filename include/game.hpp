@@ -50,4 +50,10 @@ private:
     unsigned int numBombNeighbours(CellCoord coord);
 };
 
-void gamerRunner(GameGrid gameGrid);
+class GameDrawer {
+    private:
+        static std::vector<Texture> textures;
+
+    public:
+        static void drawGrid()
+}
