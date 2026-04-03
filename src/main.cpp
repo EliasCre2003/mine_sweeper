@@ -6,8 +6,8 @@
 // #include "graphics.hpp"
 #include "game.hpp"
 
-const int SCREEN_WIDTH = 720;
-const int SCREEN_HEIGHT = 720;
+const int SCREEN_WIDTH = 900;
+const int SCREEN_HEIGHT = 900;
 
 int main(int, char **)
 {
@@ -81,8 +81,10 @@ int main(int, char **)
     // Texture texture = atlas.fetchTexture(1);
     // texture.drawSize = {100, 100};
 
-    GameGrid grid(20, 20, 40);
+    GameGrid grid(20, 20, 50);
     GameDrawer drawer(renderer, grid);
+    float cellSize = 45;
+    drawer.setCellSize(cellSize);
 
     bool running = true;
     while (running)
@@ -94,6 +96,17 @@ int main(int, char **)
             {
                 running = false;
             }
+        }
+
+        float x = 0, y = 0;
+        SDL_MouseButtonFlags mouseFlag = SDL_GetMouseState(&x, &y);
+        CellCoord coord = {
+            (unsigned int) (y / cellSize),
+            (unsigned int) (x / cellSize)
+        };
+        if (mouseFlag == SDL_BUTTON_LEFT)
+        {
+            grid.clickCell(coord);
         }
 
         // running = false;

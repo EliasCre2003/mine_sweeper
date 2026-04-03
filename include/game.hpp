@@ -54,10 +54,18 @@ class GameDrawer
 {
 private:
     TextureAtlas atlas;
-    SDL_Renderer* renderer;
-    GameGrid& grid;
+    SDL_Renderer *renderer;
+    GameGrid &grid;
+    std::pair<float, float> positionOffset;
+    float cellSize;
 
 public:
-    GameDrawer(SDL_Renderer* renderer, GameGrid& grid);
+    GameDrawer(
+        SDL_Renderer *renderer,
+        GameGrid &grid,
+        std::pair<float, float> positonOffset = {0, 0},
+        float cellSize = 24);
     void drawGrid();
+    void setGridPosition(std::pair<float, float> position);
+    void setCellSize(float size);
 };

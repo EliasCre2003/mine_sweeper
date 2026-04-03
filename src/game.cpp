@@ -140,18 +140,26 @@ unsigned int GameGrid::numBombNeighbours(CellCoord coord)
     return count;
 }
 
-GameDrawer::GameDrawer(SDL_Renderer *renderer, GameGrid &grid) : renderer(renderer),
-                                                                 grid(grid),
-                                                                 atlas(TextureAtlas::fromPNG(
-                                                                     renderer,
-                                                                     "assets/minesweeper_texture_atlas.png",
-                                                                     std::pair<unsigned int, unsigned int>(4, 4))) {}
+GameDrawer::GameDrawer(
+    SDL_Renderer *renderer,
+    GameGrid &grid,
+    std::pair<float, float> positonOffset,
+    float cellSize) : renderer(renderer),
+                           grid(grid),
+                           atlas(TextureAtlas::fromPNG(
+                               renderer,
+                               "assets/minesweeper_texture_atlas.png",
+                               std::pair<unsigned int, unsigned int>(4, 4))),
+                           positionOffset(positonOffset),
+                           cellSize(cellSize)
+{
+}
 
 void GameDrawer::drawGrid()
 {
-    unsigned int cellSize = 24;
-    unsigned int offsetX = 100;
-    unsigned int offsetY = 100;
+    // unsigned int cellSize = 24;
+    // unsigned int offsetX = 100;
+    // unsigned int offsetY = 100;
     map<CellCoord, unsigned int> revealed = grid.revealedCells();
     for (unsigned int w = 0; w < grid.numCols(); w++)
     {
@@ -171,7 +179,16 @@ void GameDrawer::drawGrid()
             }
             Texture texture = atlas.fetchTexture(textureIndex);
             texture.drawSize = {cellSize, cellSize};
-            texture.draw(renderer, offsetX + cellSize * w, offsetY + cellSize * h);
+            texture.draw(renderer, positionOffset.first + cellSize * w, positionOffset.second + cellSize * h);
         }
     }
+}
+
+void GameDrawer::setGridPosition(std::pair<float, float> position)
+{
+    positionOffset = position;
+}
+void GameDrawer::setCellSize(float size)
+{
+    cellSize = size;
 }
