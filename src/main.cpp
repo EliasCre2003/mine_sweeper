@@ -81,7 +81,7 @@ int main(int, char **)
     // Texture texture = atlas.fetchTexture(1);
     // texture.drawSize = {100, 100};
 
-    GameGrid grid(20, 20, 50);
+    GameGrid grid(16, 16, 40);
     GameDrawer drawer(renderer, grid);
     float cellSize = 45;
     drawer.setCellSize(cellSize);
@@ -96,17 +96,25 @@ int main(int, char **)
             {
                 running = false;
             }
-        }
 
-        float x = 0, y = 0;
-        SDL_MouseButtonFlags mouseFlag = SDL_GetMouseState(&x, &y);
-        CellCoord coord = {
-            (unsigned int) (y / cellSize),
-            (unsigned int) (x / cellSize)
-        };
-        if (mouseFlag == SDL_BUTTON_LEFT)
-        {
-            grid.clickCell(coord);
+            if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+            {
+                float x = 0, y = 0;
+                SDL_MouseButtonFlags mouseFlag = SDL_GetMouseState(&x, &y);
+                CellCoord coord = {
+                    (unsigned int)(y / cellSize),
+                    (unsigned int)(x / cellSize)};
+                if (mouseFlag & SDL_BUTTON_LMASK)
+                {
+                    grid.clickCell(coord);
+                    printf("Left\n");
+                }
+                else if (mouseFlag & SDL_BUTTON_RMASK)
+                {
+                    grid.toggleFlag(coord);
+                    printf("Right\n");
+                }
+            }
         }
 
         // running = false;

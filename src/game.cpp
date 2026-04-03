@@ -22,6 +22,13 @@ unsigned int GameGrid::numRows()
 
 bool GameGrid::clickCell(CellCoord coord)
 {
+    // if (gameState != UNDECIDED) {
+
+    // }
+    if (flags.contains(coord))
+    {
+        return true;
+    }
     if (revealed.contains(coord))
         return true;
     if (bombs.contains(coord))
@@ -60,6 +67,11 @@ set<CellCoord> GameGrid::bombPositions()
 map<CellCoord, unsigned int> GameGrid::revealedCells()
 {
     return revealed;
+}
+
+set<CellCoord> GameGrid::flagPositions()
+{
+    return flags;
 }
 
 set<CellCoord> GameGrid::generateBombs(unsigned int numBombs)
@@ -145,13 +157,13 @@ GameDrawer::GameDrawer(
     GameGrid &grid,
     std::pair<float, float> positonOffset,
     float cellSize) : renderer(renderer),
-                           grid(grid),
-                           atlas(TextureAtlas::fromPNG(
-                               renderer,
-                               "assets/minesweeper_texture_atlas.png",
-                               std::pair<unsigned int, unsigned int>(4, 4))),
-                           positionOffset(positonOffset),
-                           cellSize(cellSize)
+                      grid(grid),
+                      atlas(TextureAtlas::fromPNG(
+                          renderer,
+                          "assets/minesweeper_texture_atlas.png",
+                          std::pair<unsigned int, unsigned int>(4, 4))),
+                      positionOffset(positonOffset),
+                      cellSize(cellSize)
 {
 }
 
@@ -161,13 +173,18 @@ void GameDrawer::drawGrid()
     // unsigned int offsetX = 100;
     // unsigned int offsetY = 100;
     map<CellCoord, unsigned int> revealed = grid.revealedCells();
+    set<CellCoord> flags = grid.flagPositions();
     for (unsigned int w = 0; w < grid.numCols(); w++)
     {
         for (unsigned int h = 0; h < grid.numRows(); h++)
         {
             CellCoord coord = {h, w};
             unsigned int textureIndex;
-            if (revealed.contains(coord))
+            if (flags.contains(coord))
+            {
+                textureIndex = 10;
+            }
+            else if (revealed.contains(coord))
             {
                 textureIndex = revealed.at(coord);
 

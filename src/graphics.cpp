@@ -39,8 +39,8 @@ Texture TextureAtlas::fetchTexture(unsigned int index)
 }
 
 Texture::Texture(SDL_Texture *texture, SDL_FRect sourceRect) : texture(texture),
-                                                                sourceRect(sourceRect),
-                                                                drawSize(sourceRect.w, sourceRect.h) {}
+                                                               sourceRect(sourceRect),
+                                                               drawSize(sourceRect.w, sourceRect.h) {}
 
 void Texture::draw(SDL_Renderer *renderer, float x, float y)
 {

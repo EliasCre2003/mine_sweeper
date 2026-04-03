@@ -34,6 +34,7 @@ public:
     GameState getGameState();
     std::set<CellCoord> bombPositions();
     std::map<CellCoord, unsigned int> revealedCells();
+    std::set<CellCoord> flagPositions();
 
 private:
     unsigned int cols;
