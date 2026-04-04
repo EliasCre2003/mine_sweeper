@@ -27,6 +27,7 @@ class GameGrid
 {
 public:
     GameGrid(unsigned int rows, unsigned int cols, unsigned int numBombs);
+    void reset();
     bool toggleFlag(CellCoord coord);
     unsigned int numCols();
     unsigned int numRows();
@@ -39,6 +40,7 @@ public:
 private:
     unsigned int cols;
     unsigned int rows;
+    unsigned int numBombs;
     GameState gameState;
     std::map<CellCoord, unsigned char> numNeighbours;
     std::set<CellCoord> bombs;

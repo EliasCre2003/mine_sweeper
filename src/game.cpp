@@ -6,8 +6,17 @@ using namespace std;
 GameGrid::GameGrid(unsigned int rows, unsigned int cols, unsigned int numBombs)
     : cols(cols),
       rows(rows),
-      bombs(generateBombs(numBombs))
+      numBombs(numBombs)
 {
+    reset();
+}
+
+void GameGrid::reset()
+{
+    bombs = generateBombs(numBombs);
+    gameState = UNDECIDED;
+    flags.clear();
+    revealed.clear();
 }
 
 unsigned int GameGrid::numCols()
@@ -139,7 +148,7 @@ void GameGrid::dfsReveal(CellCoord coord)
     revealed.insert_or_assign(coord, bombNeighbours);
     if (bombNeighbours != 0)
         return;
-    for (const auto &n : neighbours4(coord))
+    for (const auto &n : neighbours8(coord))
         dfsReveal(n);
 }
 
@@ -174,6 +183,7 @@ void GameDrawer::drawGrid()
     // unsigned int offsetY = 100;
     map<CellCoord, unsigned int> revealed = grid.revealedCells();
     set<CellCoord> flags = grid.flagPositions();
+    set<CellCoord> bombs = grid.bombPositions();
     for (unsigned int w = 0; w < grid.numCols(); w++)
     {
         for (unsigned int h = 0; h < grid.numRows(); h++)
@@ -184,10 +194,13 @@ void GameDrawer::drawGrid()
             {
                 textureIndex = 10;
             }
+            else if ((grid.getGameState() == LOST) && bombs.contains(coord))
+            {
+                textureIndex = 12;
+            }
             else if (revealed.contains(coord))
             {
                 textureIndex = revealed.at(coord);
-
                 // .draw(renderer, offsetX + cellSize * w, offsetY + cellSize * h);
             }
             else

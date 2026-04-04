@@ -3,11 +3,12 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3/SDL_timer.h>
 
-// #include "graphics.hpp"
 #include "game.hpp"
 
-const int SCREEN_WIDTH = 900;
-const int SCREEN_HEIGHT = 900;
+const int nRows = 16;
+const int nCols = 16;
+const float cellSize = 48;
+const int nBombs = 40;
 
 int main(int, char **)
 {
@@ -17,6 +18,11 @@ int main(int, char **)
         printf("Error");
         return 3;
     }
+
+    GameGrid grid(nRows, nCols, nBombs);
+
+    const int SCREEN_WIDTH = nCols * cellSize;
+    const int SCREEN_HEIGHT = nRows * cellSize;
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -32,63 +38,24 @@ int main(int, char **)
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error creating window and renderer: %s", SDL_GetError());
     }
 
-    // SDL_Window *window = SDL_CreateWindow(
-    //     "TEST",
-    //     1000, 1000, 0);
+    SDL_SetRenderVSync(renderer, 1);
 
-    // // SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
-
-    // if (window == NULL)
-    // {
-    //     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error creating window: %s", SDL_GetError());
-    //     printf("Error");
-    //     return 3;
-    // }
-
-    // SDL_Renderer *renderer = SDL_CreateRenderer(window, nullptr);
-    // if (renderer == NULL)
-    // {
-    //     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error creating renderer: %s", SDL_GetError());
-    //     printf("Error");
-    //     return 3;
-    // }
-
-    // SDL_Surface* textureSurface = SDL_LoadPNG("assets/minesweeper_texture_atlas.png");
-    // SDL_Texture* texture;
-    // if (textureSurface != NULL) {
-    //     texture = SDL_CreateTextureFromSurface(renderer, textureSurface);
-    //     SDL_DestroySurface(textureSurface);
-    // }
-
-    // if (texture == NULL) {
-    //     return 1;
-    // }
-    // Optional: Define a destination rectangle using floats (SDL_FRect)
-    // If you pass NULL, it stretches to fill the whole window.
-    // SDL_FRect destRect;
-    // destRect.x = 100.0f;
-    // destRect.y = 100.0f;
-    // destRect.w = 200.0f;  // Width to draw
-    // destRect.h = 200.0f;  // Height to draw
-
-    // Draw the texture to the hidden backbuffer
-    // Params: Renderer, Texture, Source Rect (NULL = whole image), Dest Rect
-
-    // TextureAtlas atlas = TextureAtlas::fromPNG(
-    //     renderer,
-    //     "assets/minesweeper_texture_atlas.png",
-    //     std::pair<unsigned int, unsigned int>(4, 4));
-    // Texture texture = atlas.fetchTexture(1);
-    // texture.drawSize = {100, 100};
-
-    GameGrid grid(16, 16, 40);
     GameDrawer drawer(renderer, grid);
-    float cellSize = 45;
     drawer.setCellSize(cellSize);
+
+    auto updateScreen = [renderer, &drawer]()
+    {
+        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+        SDL_RenderClear(renderer);
+        drawer.drawGrid();
+        SDL_RenderPresent(renderer);
+    };
+    updateScreen();
 
     bool running = true;
     while (running)
     {
+        bool redraw = false;
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -97,7 +64,8 @@ int main(int, char **)
                 running = false;
             }
 
-            if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+            if ((event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) &&
+                (grid.getGameState() == UNDECIDED))
             {
                 float x = 0, y = 0;
                 SDL_MouseButtonFlags mouseFlag = SDL_GetMouseState(&x, &y);
@@ -115,19 +83,24 @@ int main(int, char **)
                     printf("Right\n");
                 }
             }
+            else if (event.type = SDL_EVENT_KEY_DOWN)
+            {
+                const bool *keyStates = SDL_GetKeyboardState(nullptr);
+                if (keyStates[SDL_SCANCODE_R])
+                {
+                    grid.reset();
+                }
+            }
+            else
+            {
+                continue;
+            }
+            redraw = true;
         }
-
-        // running = false;
-
-        // SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-        SDL_RenderClear(renderer);
-        drawer.drawGrid();
-        // texture.draw(renderer, 100, 100);
-        // SDL_RenderTexture(renderer, texture, NULL, &destRect);
-        // SDL_BlitSurface(textureAtlas, NULL, windowSurface, NULL);
-        // SDL_UpdateWindowSurface(window);
-        SDL_RenderPresent(renderer);
+        if (redraw)
+        {
+            updateScreen();
+        }
     }
 
     SDL_DestroyRenderer(renderer);
