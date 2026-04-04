@@ -15,7 +15,6 @@ int main(int, char **)
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD))
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing SDL: %s", SDL_GetError());
-        printf("Error");
         return 3;
     }
 
@@ -75,12 +74,10 @@ int main(int, char **)
                 if (mouseFlag & SDL_BUTTON_LMASK)
                 {
                     grid.clickCell(coord);
-                    printf("Left\n");
                 }
                 else if (mouseFlag & SDL_BUTTON_RMASK)
                 {
                     grid.toggleFlag(coord);
-                    printf("Right\n");
                 }
             }
             else if (event.type = SDL_EVENT_KEY_DOWN)

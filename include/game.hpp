@@ -36,6 +36,8 @@ public:
     std::set<CellCoord> bombPositions();
     std::map<CellCoord, unsigned int> revealedCells();
     std::set<CellCoord> flagPositions();
+    std::set<CellCoord> neighbours4(CellCoord coord);
+    std::set<CellCoord> neighbours8(CellCoord coord);
 
 private:
     unsigned int cols;
@@ -48,8 +50,6 @@ private:
     std::map<CellCoord, unsigned int> revealed;
     std::set<CellCoord> generateBombs(unsigned int numBombs);
     void dfsReveal(CellCoord coord);
-    std::set<CellCoord> neighbours4(CellCoord coord);
-    std::set<CellCoord> neighbours8(CellCoord coord);
     unsigned int numBombNeighbours(CellCoord coord);
 };
 
