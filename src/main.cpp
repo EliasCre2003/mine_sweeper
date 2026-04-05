@@ -6,9 +6,9 @@
 #include "game.hpp"
 
 const int nRows = 16;
-const int nCols = 16;
-const float cellSize = 48;
-const int nBombs = 40;
+const int nCols = 30;
+const float cellSize = 46;
+const int nBombs = 99;
 
 int main(int, char **)
 {
@@ -69,8 +69,8 @@ int main(int, char **)
                 float x = 0, y = 0;
                 SDL_MouseButtonFlags mouseFlag = SDL_GetMouseState(&x, &y);
                 CellCoord coord = {
-                    (unsigned int)(y / cellSize),
-                    (unsigned int)(x / cellSize)};
+                    (unsigned int)(x / cellSize),
+                    (unsigned int)(y / cellSize)};
                 if (mouseFlag & SDL_BUTTON_LMASK)
                 {
                     grid.clickCell(coord);

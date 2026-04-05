@@ -59,6 +59,10 @@ void Bot::checkHidden(CellCoord coord)
     HiddenCell *hCell = dynamic_cast<HiddenCell *>(cell);
     if (hCell == nullptr)
         return;
+    for (CellCoord n : gameGrid.neighbours8(coord)) 
+    {
+        
+    }
 }
 
 void Bot::checkRevealed(CellCoord coord)
@@ -67,8 +71,5 @@ void Bot::checkRevealed(CellCoord coord)
     HiddenCell *rCell = dynamic_cast<HiddenCell *>(cell);
     if (rCell == nullptr)
         return;
-    for (CellCoord n : gameGrid.neighbours8(coord)) 
-    {
-        
-    }
+    
 }

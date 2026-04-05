@@ -43,12 +43,13 @@ private:
     unsigned int cols;
     unsigned int rows;
     unsigned int numBombs;
+    bool firstIsPlayed;
     GameState gameState;
     std::map<CellCoord, unsigned char> numNeighbours;
     std::set<CellCoord> bombs;
     std::set<CellCoord> flags;
     std::map<CellCoord, unsigned int> revealed;
-    std::set<CellCoord> generateBombs(unsigned int numBombs);
+    std::set<CellCoord> generateBombs(unsigned int numBombs, CellCoord avoid);
     void dfsReveal(CellCoord coord);
     unsigned int numBombNeighbours(CellCoord coord);
 };

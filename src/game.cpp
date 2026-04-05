@@ -9,12 +9,14 @@ GameGrid::GameGrid(unsigned int rows, unsigned int cols, unsigned int numBombs)
       numBombs(numBombs)
 {
     reset();
+    // bombs.clear();
 }
 
 void GameGrid::reset()
 {
-    bombs = generateBombs(numBombs);
+    bombs.clear();
     gameState = UNDECIDED;
+    firstIsPlayed = false;
     flags.clear();
     revealed.clear();
 }
@@ -44,6 +46,16 @@ bool GameGrid::clickCell(CellCoord coord)
     {
         gameState = LOST;
         return false;
+    }
+    if (!firstIsPlayed)
+    {
+        bombs = generateBombs(numBombs, coord);
+        firstIsPlayed = true;
+    }
+    for (CellCoord b : bombs)
+    {
+        if (b.col > 25)
+            printf("sd");
     }
     dfsReveal(coord);
     return true;
@@ -83,7 +95,7 @@ set<CellCoord> GameGrid::flagPositions()
     return flags;
 }
 
-set<CellCoord> GameGrid::generateBombs(unsigned int numBombs)
+set<CellCoord> GameGrid::generateBombs(unsigned int numBombs, CellCoord avoid)
 {
     if (numBombs > (cols * rows))
     {
@@ -98,8 +110,11 @@ set<CellCoord> GameGrid::generateBombs(unsigned int numBombs)
     set<CellCoord> bombs;
     while (bombs.size() < numBombs)
     {
-        bombs.insert({colDist(gen),
-                      rowDist(gen)});
+        CellCoord coord = {
+            colDist(gen),
+            rowDist(gen)};
+        if (coord != avoid)
+            bombs.insert(coord);
     }
 
     return bombs;
@@ -188,7 +203,7 @@ void GameDrawer::drawGrid()
     {
         for (unsigned int h = 0; h < grid.numRows(); h++)
         {
-            CellCoord coord = {h, w};
+            CellCoord coord = {w, h};
             unsigned int textureIndex;
             if (flags.contains(coord))
             {
