@@ -52,11 +52,6 @@ bool GameGrid::clickCell(CellCoord coord)
         bombs = generateBombs(numBombs, coord);
         firstIsPlayed = true;
     }
-    for (CellCoord b : bombs)
-    {
-        if (b.col > 25)
-            printf("sd");
-    }
     dfsReveal(coord);
     return true;
 }
