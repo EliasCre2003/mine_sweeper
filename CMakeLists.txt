@@ -61,8 +61,6 @@ add_subdirectory(lib)
 # endif()
 target_link_libraries(MyProgram
     PRIVATE
-
-    # imgui
     SDL3::SDL3
     SDL3_image::SDL3_image
 )
