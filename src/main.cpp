@@ -13,13 +13,15 @@ const int nBombs = 99;
 
 int main(int, char **)
 {
-    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD))
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMEPAD))
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing SDL: %s", SDL_GetError());
         return 3;
     }
 
-    Sound sound("assets/sounds/win.waw");
+    Sound winSound("assets/sounds/win.wav");
+    Sound loseSound("assets/sounds/lose.wav");
+    Sound tickSound("assets/sounds/tick.wav");
 
     GameGrid grid(nRows, nCols, nBombs);
 
@@ -77,10 +79,17 @@ int main(int, char **)
                 if (mouseFlag & SDL_BUTTON_LMASK)
                 {
                     grid.clickCell(coord);
+                    switch (grid.getGameState()) {
+                        case WON:
+                            winSound.play();
+                        case LOST:
+                            loseSound.play();
+                    }
                 }
                 else if (mouseFlag & SDL_BUTTON_RMASK)
                 {
                     grid.toggleFlag(coord);
+                    tickSound.play();
                 }
             }
             else if (event.type = SDL_EVENT_KEY_DOWN)
