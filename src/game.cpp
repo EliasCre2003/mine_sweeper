@@ -174,13 +174,10 @@ unsigned int GameGrid::numBombNeighbours(CellCoord coord)
 }
 
 GameDrawer::GameDrawer(
-    SDL_Renderer *renderer,
     GameGrid &grid,
     std::pair<float, float> positonOffset,
-    float cellSize) : renderer(renderer),
-                      grid(grid),
+    float cellSize) : grid(grid),
                       atlas(TextureAtlas::fromPNG(
-                          renderer,
                           "assets/minesweeper_texture_atlas.png",
                           std::pair<unsigned int, unsigned int>(4, 4))),
                       positionOffset(positonOffset),
@@ -188,7 +185,7 @@ GameDrawer::GameDrawer(
 {
 }
 
-void GameDrawer::drawGrid()
+void GameDrawer::drawGrid(SDL_Surface *surface)
 {
     // unsigned int cellSize = 24;
     // unsigned int offsetX = 100;
@@ -221,7 +218,7 @@ void GameDrawer::drawGrid()
             }
             Texture texture = atlas.fetchTexture(textureIndex);
             texture.drawSize = {cellSize, cellSize};
-            texture.draw(renderer, positionOffset.first + cellSize * w, positionOffset.second + cellSize * h);
+            texture.draw(surface, positionOffset.first + cellSize * w, positionOffset.second + cellSize * h);
         }
     }
 }

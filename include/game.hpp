@@ -65,11 +65,10 @@ private:
 
 public:
     GameDrawer(
-        SDL_Renderer *renderer,
         GameGrid &grid,
         std::pair<float, float> positonOffset = {0, 0},
         float cellSize = 24);
-    void drawGrid();
+    void drawGrid(SDL_Surface *surface);
     void setGridPosition(std::pair<float, float> position);
     void setCellSize(float size);
 };

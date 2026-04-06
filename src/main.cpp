@@ -28,31 +28,34 @@ int main(int, char **)
     const int SCREEN_WIDTH = nCols * cellSize;
     const int SCREEN_HEIGHT = nRows * cellSize;
 
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
+    SDL_Window *window = SDL_CreateWindow(
+        "Minesweeper",
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        0);
 
-    if (!SDL_CreateWindowAndRenderer(
-            nullptr,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT,
-            0,
-            &window,
-            &renderer))
+    if (!window)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error creating window and renderer: %s", SDL_GetError());
     }
 
-    SDL_SetRenderVSync(renderer, 1);
+    SDL_SetWindowSurfaceVSync(window, 1);
 
-    GameDrawer drawer(renderer, grid);
+    GameDrawer drawer(grid);
     drawer.setCellSize(cellSize);
 
-    auto updateScreen = [renderer, &drawer]()
+    auto updateScreen = [&]()
     {
-        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-        SDL_RenderClear(renderer);
-        drawer.drawGrid();
-        SDL_RenderPresent(renderer);
+        SDL_Surface *screen = SDL_GetWindowSurface(window);
+        if (!screen)
+            return;
+
+        const Uint32 bg = SDL_MapSurfaceRGBA(screen, 100, 100, 100, 255);
+        SDL_FillSurfaceRect(screen, nullptr, bg);
+
+        drawer.drawGrid(screen); // changed signature (see below)
+
+        SDL_UpdateWindowSurface(window);
     };
     updateScreen();
 
@@ -79,11 +82,12 @@ int main(int, char **)
                 if (mouseFlag & SDL_BUTTON_LMASK)
                 {
                     grid.clickCell(coord);
-                    switch (grid.getGameState()) {
-                        case WON:
-                            winSound.play();
-                        case LOST:
-                            loseSound.play();
+                    switch (grid.getGameState())
+                    {
+                    case WON:
+                        winSound.play();
+                    case LOST:
+                        loseSound.play();
                     }
                 }
                 else if (mouseFlag & SDL_BUTTON_RMASK)
@@ -112,7 +116,7 @@ int main(int, char **)
         }
     }
 
-    SDL_DestroyRenderer(renderer);
+    // SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
     SDL_Quit();
