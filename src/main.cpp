@@ -4,6 +4,7 @@
 #include <SDL3/SDL_timer.h>
 
 #include "game.hpp"
+#include "sounds.hpp"
 
 const int nRows = 16;
 const int nCols = 30;
@@ -17,6 +18,8 @@ int main(int, char **)
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing SDL: %s", SDL_GetError());
         return 3;
     }
+
+    Sound sound("assets/sounds/win.waw");
 
     GameGrid grid(nRows, nCols, nBombs);
 

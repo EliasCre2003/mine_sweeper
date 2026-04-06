@@ -103,12 +103,14 @@ set<CellCoord> GameGrid::generateBombs(unsigned int numBombs, CellCoord avoid)
     uniform_int_distribution<unsigned int> colDist(0, cols - 1);
 
     set<CellCoord> bombs;
+    set<CellCoord> avoids = neighbours8(avoid);
+    avoids.insert(avoid);
     while (bombs.size() < numBombs)
     {
         CellCoord coord = {
             colDist(gen),
             rowDist(gen)};
-        if (coord != avoid)
+        if (!avoids.contains(coord))
             bombs.insert(coord);
     }
 

@@ -11,6 +11,7 @@ target_sources(MyProgram
     src/main.cpp
     src/game.cpp
     src/graphics.cpp
+    src/sounds.cpp
 
     # src/ui.cpp
 )
