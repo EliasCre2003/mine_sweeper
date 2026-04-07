@@ -58,6 +58,10 @@ bool GameGrid::clickCell(CellCoord coord)
 
 bool GameGrid::toggleFlag(CellCoord coord)
 {
+    if (revealed.contains(coord))
+    {
+        return false;
+    }
     if (flags.contains(coord))
     {
         flags.erase(coord);

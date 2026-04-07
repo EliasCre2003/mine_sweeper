@@ -92,8 +92,10 @@ int main(int, char **)
                 }
                 else if (mouseFlag & SDL_BUTTON_RMASK)
                 {
-                    grid.toggleFlag(coord);
-                    tickSound.play();
+                    if (grid.toggleFlag(coord))
+                    {
+                        tickSound.play();
+                    }
                 }
             }
             else if (event.type = SDL_EVENT_KEY_DOWN)
