@@ -6,10 +6,10 @@
 #include "game.hpp"
 #include "sounds.hpp"
 
-const int nRows = 16;
-const int nCols = 30;
-const float cellSize = 46;
-const int nBombs = 99;
+const int nRows = 9;
+const int nCols = 9;
+const float cellSize = 64;
+const int nBombs = 9;
 
 int main(int, char **)
 {

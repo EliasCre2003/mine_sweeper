@@ -53,6 +53,8 @@ bool GameGrid::clickCell(CellCoord coord)
         firstIsPlayed = true;
     }
     dfsReveal(coord);
+    if ((revealed.size() + bombs.size()) == (cols * rows))
+        gameState = WON;
     return true;
 }
 
