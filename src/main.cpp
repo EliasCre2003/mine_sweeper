@@ -81,13 +81,6 @@ int main(int, char **)
                 if (mouseFlag & SDL_BUTTON_LMASK)
                 {
                     grid.clickCell(coord);
-                    switch (grid.getGameState())
-                    {
-                    case WON:
-                        winSound.play();
-                    case LOST:
-                        loseSound.play();
-                    }
                 }
                 else if (mouseFlag & SDL_BUTTON_RMASK)
                 {
@@ -95,6 +88,13 @@ int main(int, char **)
                     {
                         tickSound.play();
                     }
+                }
+                switch (grid.getGameState())
+                {
+                case WON:
+                    winSound.play();
+                case LOST:
+                    loseSound.play();
                 }
             }
             else if (event.type = SDL_EVENT_KEY_DOWN)
@@ -109,6 +109,7 @@ int main(int, char **)
             {
                 continue;
             }
+
             redraw = true;
         }
         if (redraw)

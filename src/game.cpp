@@ -49,8 +49,7 @@ bool GameGrid::clickCell(CellCoord coord)
         firstIsPlayed = true;
     }
     dfsReveal(coord);
-    if ((revealed.size() + bombs.size()) == (cols * rows))
-        gameState = WON;
+    printf("%d", flags.size());
     return true;
 }
 
@@ -74,6 +73,9 @@ bool GameGrid::toggleFlag(CellCoord coord)
 
 GameState GameGrid::getGameState()
 {
+    if (((revealed.size() + numBombs) == (cols * rows)) &&
+        (flags.size() == numBombs))
+        gameState = WON;
     return gameState;
 }
 
