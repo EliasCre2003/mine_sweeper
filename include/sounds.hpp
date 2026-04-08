@@ -10,7 +10,6 @@ public:
     void play();
 
 private:
-    // SDL_AudioStream *stream;
     SDL_AudioSpec spec;
     Uint8 *wavData;
     Uint32 wavDataLen;

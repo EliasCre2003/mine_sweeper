@@ -10,9 +10,7 @@ class Texture
 public:
     std::pair<int, int> drawSize;
     Texture(SDL_Surface *surface, const SDL_Rect sourceRect);
-    // Texture fromPNG(std::string path);
     void draw(SDL_Surface *destSurface, int x, int y);
-    // Texture fromSurface(SDL_Surface* surface);
 
 private:
     SDL_Surface *surface;

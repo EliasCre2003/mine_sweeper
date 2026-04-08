@@ -20,7 +20,7 @@ struct CellCoord
     unsigned int col;
     unsigned int row;
 
-    auto operator<=>(const CellCoord &) const = default; // enables use in std::set/map
+    auto operator<=>(const CellCoord &) const = default;
 };
 
 class GameGrid

@@ -18,7 +18,6 @@ void Sound::play()
     SDL_ResumeAudioStreamDevice(stream);
     if (SDL_GetAudioStreamQueued(stream) < (int)wavDataLen)
     {
-        /* feed more data to the stream. It will queue at the end, and trickle out as the hardware needs more data. */
         SDL_PutAudioStreamData(stream, wavData, wavDataLen);
     }
 }

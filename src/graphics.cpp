@@ -9,20 +9,10 @@ TextureAtlas::TextureAtlas(
 TextureAtlas TextureAtlas::fromPNG(std::string path, std::pair<unsigned int, unsigned int> subdivision)
 {
     SDL_Surface *textureSurface = SDL_LoadPNG(path.c_str());
-    // SDL_Texture *texture;
     if (textureSurface == NULL)
     {
         throw std::invalid_argument("Could not load PNG");
     }
-    // texture = SDL_CreateTextureFromSurface(textureSurface);
-    // SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
-    // SDL_DestroySurface(textureSurface);
-
-    // if (texture == NULL)
-    // {
-    //     throw std::invalid_argument("Could not create texture");
-    // }
-
     return TextureAtlas(textureSurface, subdivision);
 }
 
@@ -38,10 +28,6 @@ Texture TextureAtlas::fetchTexture(unsigned int index)
         w,
         h,
     };
-    // sourceRect.w = size.first / subdivision.first;
-    // sourceRect.h = size.second / subdivision.second;
-    // sourceRect.x = sourceRect.w * col;
-    // sourceRect.y = sourceRect.h * row;
     return Texture(surface, sourceRect);
 }
 
@@ -56,6 +42,5 @@ void Texture::draw(SDL_Surface *destSurface, int x, int y)
         y,
         drawSize.first,
         drawSize.second};
-    // SDL_RenderTexture(&sourceRect, &destRect);
     SDL_BlitSurfaceScaled(surface, &sourceRect, destSurface, &destRect, SDL_SCALEMODE_NEAREST);
 }

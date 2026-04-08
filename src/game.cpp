@@ -9,7 +9,6 @@ GameGrid::GameGrid(unsigned int rows, unsigned int cols, unsigned int numBombs)
       numBombs(numBombs)
 {
     reset();
-    // bombs.clear();
 }
 
 void GameGrid::reset()
@@ -33,9 +32,6 @@ unsigned int GameGrid::numRows()
 
 bool GameGrid::clickCell(CellCoord coord)
 {
-    // if (gameState != UNDECIDED) {
-
-    // }
     if (flags.contains(coord))
     {
         return true;
@@ -193,9 +189,6 @@ GameDrawer::GameDrawer(
 
 void GameDrawer::drawGrid(SDL_Surface *surface)
 {
-    // unsigned int cellSize = 24;
-    // unsigned int offsetX = 100;
-    // unsigned int offsetY = 100;
     map<CellCoord, unsigned int> revealed = grid.revealedCells();
     set<CellCoord> flags = grid.flagPositions();
     set<CellCoord> bombs = grid.bombPositions();
@@ -216,7 +209,6 @@ void GameDrawer::drawGrid(SDL_Surface *surface)
             else if (revealed.contains(coord))
             {
                 textureIndex = revealed.at(coord);
-                // .draw(renderer, offsetX + cellSize * w, offsetY + cellSize * h);
             }
             else
             {

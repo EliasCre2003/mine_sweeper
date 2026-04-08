@@ -1,6 +1,5 @@
 #include <iostream>
 #include <SDL3/SDL.h>
-// #include <SDL3_image/SDL_image.h>
 #include <SDL3/SDL_timer.h>
 
 #include "game.hpp"
@@ -53,7 +52,7 @@ int main(int, char **)
         const Uint32 bg = SDL_MapSurfaceRGBA(screen, 100, 100, 100, 255);
         SDL_FillSurfaceRect(screen, nullptr, bg);
 
-        drawer.drawGrid(screen); // changed signature (see below)
+        drawer.drawGrid(screen);
 
         SDL_UpdateWindowSurface(window);
     };
@@ -118,7 +117,6 @@ int main(int, char **)
         }
     }
 
-    // SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
     SDL_Quit();

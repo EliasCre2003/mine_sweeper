@@ -5,12 +5,6 @@
 
 #include "game.hpp"
 
-// struct Cell
-// {
-//     int neighbours;
-//     bool revealed;
-//     bool flagged;
-// };
 
 class Cell
 {
