@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.23)
 project(mine_sweeper)
 
-add_executable(MyProgram)
+add_executable(MineSweeper)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-target_sources(MyProgram
+target_sources(MineSweeper
     PRIVATE
     src/main.cpp
     src/game.cpp
@@ -14,17 +14,17 @@ target_sources(MyProgram
     src/sounds.cpp
 )
 
-target_include_directories(MyProgram
+target_include_directories(MineSweeper
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_compile_features(MyProgram PRIVATE cxx_std_20)
+target_compile_features(MineSweeper PRIVATE cxx_std_20)
 
 
 add_subdirectory(lib/SDL)
 
-target_link_libraries(MyProgram
+target_link_libraries(MineSweeper
     PRIVATE
     SDL3::SDL3
 )
