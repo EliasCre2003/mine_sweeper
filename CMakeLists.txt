@@ -48,7 +48,7 @@ target_compile_features(MyProgram PRIVATE cxx_std_20)
 
 # set(SDLIMAGE_DEPS_SHARED OFF CACHE BOOL "" FORCE)
 # set(SDLIMAGE_VENDORED ON CACHE BOOL "" FORCE)
-add_subdirectory(lib)
+add_subdirectory(lib/SDL)
 
 # add_subdirectory(lib/sdl)
 
@@ -62,5 +62,5 @@ add_subdirectory(lib)
 target_link_libraries(MyProgram
     PRIVATE
     SDL3::SDL3
-    SDL3_image::SDL3_image
+    # SDL3_image::SDL3_image
 )
