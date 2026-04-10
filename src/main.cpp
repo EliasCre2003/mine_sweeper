@@ -1,14 +1,24 @@
 #include <iostream>
 #include <SDL3/SDL.h>
-#include <SDL3/SDL_timer.h>
 
 #include "game.hpp"
 #include "sounds.hpp"
 
-const int nRows = 9;
-const int nCols = 9;
+#define EASY 0
+#define MEDIUM 1
+#define HARD 2
+
+const int DIFFICULTY = MEDIUM;
+const int difficulties[3][3] = {
+    {9, 9, 9},
+    {16, 16, 40},
+    {16, 30, 99}};
+
+const int *difficuiltyPreset = difficulties[DIFFICULTY];
+
+const int nRows = difficuiltyPreset[0], nCols = difficuiltyPreset[1], nBombs = difficuiltyPreset[2];
+
 const float cellSize = 64;
-const int nBombs = 9;
 
 int main(int, char **)
 {
@@ -36,6 +46,7 @@ int main(int, char **)
     if (!window)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error creating window and renderer: %s", SDL_GetError());
+        return 3;
     }
 
     SDL_SetWindowSurfaceVSync(window, 1);
@@ -73,7 +84,7 @@ int main(int, char **)
             if ((event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) &&
                 (grid.getGameState() == UNDECIDED))
             {
-                float x = 0, y = 0;
+                float x, y;
                 SDL_MouseButtonFlags mouseFlag = SDL_GetMouseState(&x, &y);
                 CellCoord coord = {
                     (unsigned int)(x / cellSize),
@@ -93,13 +104,19 @@ int main(int, char **)
                 {
                 case WON:
                     winSound.play();
+                    break;
                 case LOST:
                     loseSound.play();
+                    break;
                 }
             }
             else if (event.type = SDL_EVENT_KEY_DOWN)
             {
                 const bool *keyStates = SDL_GetKeyboardState(nullptr);
+                if (keyStates[SDL_SCANCODE_ESCAPE])
+                {
+                    running = false;
+                }
                 if (keyStates[SDL_SCANCODE_R])
                 {
                     grid.reset();

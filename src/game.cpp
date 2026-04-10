@@ -49,7 +49,6 @@ bool GameGrid::clickCell(CellCoord coord)
         firstIsPlayed = true;
     }
     dfsReveal(coord);
-    printf("%d", flags.size());
     return true;
 }
 
