@@ -22,7 +22,7 @@ target_include_directories(MineSweeper
 target_compile_features(MineSweeper PRIVATE cxx_std_20)
 
 
-add_subdirectory(lib/sdl_
+add_subdirectory(lib/SDL
 )
 
 target_link_libraries(MineSweeper
